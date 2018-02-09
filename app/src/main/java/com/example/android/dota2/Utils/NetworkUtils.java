@@ -99,7 +99,7 @@ public class NetworkUtils {
 
 
                 JSONObject ob = ar.getJSONObject(i);
-                String heroImage = ob.getString("icon");
+                String heroImage = ob.getString("img");
                 String heroid = ob.getString("id");
 
                 String heroName = ob.getString("localized_name");

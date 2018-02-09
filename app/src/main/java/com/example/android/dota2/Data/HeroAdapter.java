@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.example.android.dota2.MainActivity;
 import com.example.android.dota2.R;
 import com.squareup.picasso.Picasso;
 
@@ -21,16 +21,24 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.MyViewHolder> 
 
 
     private List<Heroes> heroesList;
+    final private ListItemClickListener listItemClickListener;
 
 
-    public HeroAdapter(List<Heroes> mNumberItems) {
+    public interface ListItemClickListener {
+
+        void onListItemClick(Heroes heroes);
+    }
+
+
+    public HeroAdapter(MainActivity mainActivity, List<Heroes> mNumberItems, ListItemClickListener listItemClickListener) {
         this.heroesList = mNumberItems;
+        this.listItemClickListener = listItemClickListener;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.number_rv_list, parent, false);
+                .inflate(R.layout.custom_layout, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -42,11 +50,7 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.MyViewHolder> 
         Context context = holder.heroImage.getContext();
         Picasso.with(context).load("https://api.opendota.com"
                 + item.getHeroImage()).into(holder.heroImage);
-        holder.heroId.setText(item.getHeroId());
-        holder.heroName.setText(item.getName());
-        holder.heroAttribute.setText(item.getPrimary_attribute());
-        holder.heroAttack_type.setText(item.getAttack_type());
-
+        holder.bind(heroesList.get(position), listItemClickListener);
     }
 
     @Override
@@ -57,20 +61,20 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.MyViewHolder> 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView heroImage;
-        TextView heroId;
-        TextView heroName;
-        TextView heroAttribute;
-        TextView heroAttack_type;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            heroImage = (ImageView) itemView.findViewById(R.id.hero_image);
-            heroId = (TextView) itemView.findViewById(R.id.hero_id);
-            heroName = (TextView) itemView.findViewById(R.id.hero_name);
-            heroAttribute = (TextView) itemView.findViewById(R.id.hero_attribute);
-            heroAttack_type = (TextView) itemView.findViewById(R.id.hero_attack_Type);
+            heroImage = (ImageView) itemView.findViewById(R.id.custom_Image_View);
         }
 
+        public void bind(final Heroes heroes, final ListItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onListItemClick(heroes);
+                }
+            });
+        }
     }
-
 }

@@ -1,10 +1,11 @@
 package com.example.android.dota2;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecycleView = findViewById(R.id.rv_numbers);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
         mRecycleView.setLayoutManager(layoutManager);
 
         mRecycleView.setHasFixedSize(true);
@@ -60,8 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Heroes> heroes) {
-            super.onPostExecute(heroes);
-            mHeroAdapter = new HeroAdapter(heroes);
+
+            mHeroAdapter = new HeroAdapter(MainActivity.this,heroes, new HeroAdapter.ListItemClickListener() {
+                @Override
+                public void onListItemClick(Heroes heroes) {
+                    Intent intent = new Intent(MainActivity.this,DetailActivity.class);
+                    intent.putExtra("data",heroes);
+                    startActivity(intent);
+                }
+            });
+
             mRecycleView.setAdapter(mHeroAdapter);
 
         }
