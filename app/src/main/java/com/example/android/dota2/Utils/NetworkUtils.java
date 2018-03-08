@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.android.dota2.Data.Heroes;
+import com.example.android.dota2.Adapter.Heroes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +27,7 @@ public class NetworkUtils {
 
     final static String DOTA_2_URL =
             "https://api.opendota.com/api/heroStats";
-
+    final static String SORT_BY = "sort_by";
 
     //fetching Json response
 
@@ -48,6 +48,7 @@ public class NetworkUtils {
     //Building URL
     public static URL builtURL() {
         Uri builtUri = Uri.parse(DOTA_2_URL).buildUpon()
+                //.appendPath(sort)
                 .build();
 
         URL url = null;
@@ -106,8 +107,10 @@ public class NetworkUtils {
                 String heroAttri = ob.getString("primary_attr");
                 String heroAttack_type = ob.getString("attack_type");
 
+
+
                 Heroes heroes1 = new Heroes( heroImage,heroid, heroName, heroAttri, heroAttack_type);
-                Log.i("name",  heroImage + " | "+ heroName + " | " + heroAttri + " | " + heroAttack_type);
+                Log.i("name",  heroImage + " | "+ heroName + " | " + heroAttri + " | " + heroAttack_type );
 
                 heroes.add(heroes1);
 

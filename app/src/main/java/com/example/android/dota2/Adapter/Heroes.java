@@ -1,4 +1,4 @@
-package com.example.android.dota2.Data;
+package com.example.android.dota2.Adapter;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -26,6 +26,7 @@ public class Heroes implements Parcelable {
         this.name = name;
         this.primary_attribute = primary_attribute;
         this.attack_type = attack_type;
+        // this.hero_roles = hero_roles;
     }
 
     public String getHeroImage() {

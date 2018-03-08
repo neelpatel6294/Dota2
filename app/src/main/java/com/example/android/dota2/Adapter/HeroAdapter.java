@@ -1,4 +1,4 @@
-package com.example.android.dota2.Data;
+package com.example.android.dota2.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +58,9 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.MyViewHolder> 
         return heroesList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+
+
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView heroImage;
 
@@ -66,6 +68,7 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.MyViewHolder> 
         public MyViewHolder(View itemView) {
             super(itemView);
             heroImage = (ImageView) itemView.findViewById(R.id.custom_Image_View);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(final Heroes heroes, final ListItemClickListener listener) {
@@ -75,6 +78,13 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.MyViewHolder> 
                     listener.onListItemClick(heroes);
                 }
             });
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Heroes imageClick = heroesList.get(adapterPosition);
+            listItemClickListener.onListItemClick(imageClick);
         }
     }
 }
